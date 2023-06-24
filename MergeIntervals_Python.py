@@ -1,23 +1,13 @@
-class Solution(object):
-    def merge(self, intervals):
-        """
-        :type intervals: List[List[int]]
-        :rtype: List[List[int]]
-        """
+class Solution:
+    def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort()
-        print(intervals)
+        res = [intervals[0]]
 
-
-        result = []
-        result.append(intervals[0])
-        for i in range(1, len(intervals)):
-            resultLast = result[-1]
-            if resultLast[1] >= intervals[i][1]:
-                continue
-            elif resultLast[1] >= intervals[i][0]:
-                newInterval = [resultLast[0], intervals[i][1]]
-                result.pop()
-                result.append(newInterval)
+        for i in intervals[1:]:
+            last = res[-1]
+            if last[1] >= i[0]:
+                res.pop()
+                res.append([min(last[0], last[1], i[0], i[1]), max(last[0], last[1], i[0], i[1])])
             else:
-                result.append(intervals[i])
-        return result 
+                res.append(i)
+        return res
